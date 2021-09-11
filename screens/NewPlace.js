@@ -8,10 +8,17 @@ import {
   Button,
 } from 'react-native'
 import { Colors } from '../constants/Colors'
+import { useDispatch } from 'react-redux'
+import { addNewPlace } from '../redux/places/actions'
 
-export default function NewPlace() {
+export default function NewPlace({ navigation }) {
   const [place, setPlace] = useState('')
-  const submitHandler = () => console.log(place)
+  const dispatch = useDispatch()
+  const submitHandler = () => {
+    dispatch(addNewPlace(new Date().toString(), place))
+    navigation.goBack()
+  }
+
   return (
     <ScrollView>
       <View style={styles.form}>
