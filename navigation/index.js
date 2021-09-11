@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, TouchableNativeFeedback } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import PlaceList from '../screens/PlaceList'
@@ -7,6 +7,7 @@ import NewPlace from '../screens/NewPlace'
 import PlaceDetails from '../screens/PlaceDetails'
 import PlaceMap from '../screens/PlaceMap'
 import { Colors } from '../constants/Colors'
+import { AntDesign } from '@expo/vector-icons'
 
 export default function Navigator() {
   const Stack = createNativeStackNavigator()
@@ -23,8 +24,20 @@ export default function Navigator() {
         <Stack.Screen
           name="placeList"
           component={PlaceList}
-          options={({}) => ({
+          options={({ navigation }) => ({
             headerTitle: 'Place List',
+            headerRight: () => (
+              <TouchableNativeFeedback
+                onPress={() => navigation.navigate('newPlace')}
+              >
+                <AntDesign
+                  style={{ color: Colors.textColor }}
+                  name="pluscircleo"
+                  size={24}
+                  color="black"
+                />
+              </TouchableNativeFeedback>
+            ),
           })}
         />
         <Stack.Screen
