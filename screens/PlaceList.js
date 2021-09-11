@@ -1,16 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
+import PlaceItem from '../components/PlaceItem'
 
-export default function PlaceList() {
+export default function PlaceList({ navigation }) {
   const { places } = useSelector((state) => state.places)
 
   return (
-    <View>
-      {places.map((place, index) => (
-        <Text key={index}>{place.title}</Text>
-      ))}
-    </View>
+    <FlatList
+      data={places}
+      renderItem={({ item }) => (
+        <PlaceItem
+          item={item}
+          onSelect={() =>
+            navigation.navigate('placeDetails', { title: item.title })
+          }
+        />
+      )}
+    />
   )
 }
 

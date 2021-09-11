@@ -50,8 +50,8 @@ export default function Navigator() {
         <Stack.Screen
           name="placeDetails"
           component={PlaceDetails}
-          options={({}) => ({
-            headerTitle: 'Place Details',
+          options={({ route }) => ({
+            headerTitle: route.params.title,
           })}
         />
         <Stack.Screen
