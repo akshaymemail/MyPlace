@@ -4,6 +4,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import Navigator from './navigation'
 import { Provider } from 'react-redux'
 import store from './redux/store'
+import { init } from './helpers/db'
+
+init()
+  .then(() => console.log('database initialized'))
+  .catch((err) => console.error(err))
 
 export default function App() {
   return (
