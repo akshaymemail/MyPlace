@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,13 +10,35 @@ import {
 import { Colors } from '../constants/Colors'
 import { useDispatch } from 'react-redux'
 import { addNewPlace } from '../redux/places/actions'
+import PickImage from '../components/PickImage'
+import { Camera } from 'expo-camera'
 
 export default function NewPlace({ navigation }) {
+  const [hasPermission, setHasPermission] = useState(null)
   const [place, setPlace] = useState('')
+  const [imageUri, setImageUri] = useState()
+  useEffect(() => {
+    Camera.requestCameraPermissionsAsync()
+      .then((res) => {
+        if (res.granted) {
+          setHasPermission(true)
+        }
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
   const dispatch = useDispatch()
   const submitHandler = () => {
-    dispatch(addNewPlace(new Date().toString(), place))
+    dispatch(addNewPlace(new Date().toString(), place, imageUri))
     navigation.goBack()
+  }
+
+  if (!hasPermission) {
+    return (
+      <View style={styles.noPermission}>
+        <Text>Camera permission is needed to work this application</Text>
+      </View>
+    )
   }
 
   return (
@@ -28,6 +50,7 @@ export default function NewPlace({ navigation }) {
           placeholder="Enter place name"
           onChangeText={(text) => setPlace(text)}
         />
+        <PickImage onImageCaptured={(image) => setImageUri(image)} />
         <Button
           color={Colors.primaryColor}
           title="Add Now"
@@ -50,5 +73,10 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 20,
     fontSize: 20,
+  },
+  noPermission: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
