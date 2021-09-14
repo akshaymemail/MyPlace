@@ -15,3 +15,31 @@ export const init = () => {
   })
   return promise
 }
+
+export const insertPlace = (title, image, address, lat, lng) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO places (title, image, address, lat, lng) values(?, ?, ?, ?, ?)',
+        [title, image, address, lat, lng],
+        (_, result) => resolve(result),
+        (_, err) => reject(err)
+      )
+    })
+  })
+  return promise
+}
+
+export const fetchPlace = (title, image, address, lat, lng) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM places',
+        [title, image, address, lat, lng],
+        (_, result) => resolve(result),
+        (_, err) => reject(err)
+      )
+    })
+  })
+  return promise
+}

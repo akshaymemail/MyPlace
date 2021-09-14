@@ -29,7 +29,7 @@ export default function NewPlace({ navigation }) {
 
   const dispatch = useDispatch()
   const submitHandler = () => {
-    dispatch(addNewPlace(new Date().toString(), place, imageUri))
+    dispatch(addNewPlace(place, imageUri))
     navigation.goBack()
   }
 
